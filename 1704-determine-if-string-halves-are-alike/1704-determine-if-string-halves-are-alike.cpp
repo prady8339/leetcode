@@ -2,7 +2,7 @@ class Solution
 {
 public:
     bool halvesAreAlike(string s) {
-        set<char> st = {'a','e','i','o','u','A','E','I','O','U',};
+        set<char> st = {'a','e','i','o','u','A','E','I','O','U'};
         int x=0,y=0;
         int i = 0;
         for(; i<s.length()/2 ; i++){
