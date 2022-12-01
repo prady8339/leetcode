@@ -1,17 +1,17 @@
-class Solution {
+class Solution 
+{
 public:
     bool halvesAreAlike(string s) {
+        set<char> st = {'a','e','i','o','u','A','E','I','O','U',};
         int x=0,y=0;
         int i = 0;
         for(; i<s.length()/2 ; i++){
-            if(s[i]=='a'||s[i]=='e'||s[i]=='i'||s[i]=='o'||s[i]=='u'||s[i]=='A'||s[i]=='E'||s[i]=='I'||s[i]=='O'||s[i]=='U'){
-                x++;
-            }
+            auto fd = st.find(s[i]);
+            if(fd!=st.end()) x++;
         }
         for( ; i<s.length() ; i++){
-           if(s[i]=='a'||s[i]=='e'||s[i]=='i'||s[i]=='o'||s[i]=='u'||s[i]=='A'||s[i]=='E'||s[i]=='I'||s[i]=='O'||s[i]=='U'){
-                y++;
-            } 
+           auto fd = st.find(s[i]);
+            if(fd!=st.end()) y++;
         }
         return x==y;
     }
