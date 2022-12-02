@@ -3,7 +3,6 @@ public:
     bool closeStrings(string word1, string word2) {
         if(word1.length()!=word2.length()) return 0;
         unordered_map<char,int> f1,f2,f3,f4;
-        unordered_set<int> st;
         for(auto x:word1){
             f1[x]++;
         }
