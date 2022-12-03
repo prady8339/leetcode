@@ -1,24 +1,31 @@
-#define pi pair<int,char>
+#define pic pair<int,char>
 class Solution {
 public:
     string frequencySort(string s) {
-        unordered_map<char,int> un; 
-        priority_queue<pi> pq;
+        sort(s.begin(),s.end());
+        priority_queue<pic> pq;
+        s+='0';
         string str;
-        for(auto x:s){
-            un[x]++;
-        }
-
-        for(auto it=un.begin() ; it!=un.end() ; it++){
-            pq.push({it->second,it->first});
-        }
         
+       int i = 1 ,j=1 ;
+           
+    while( i < s.length())
+    {
+        if(s[i-1]==s[i]) j++;
+        else{ 
+            pq.push({j,s[i-1]});
+            j=1;
+            }
+        i++;
+    }
+        
+     
         while(!pq.empty()){
                 auto x = pq.top();
-                int i = x.first;
-                while(i>0){
+                int c = x.first;
+                while(c>0){
                     str+=x.second;
-                    i--;
+                    c--;
                 }
                 pq.pop();
         }
