@@ -3,7 +3,7 @@ class Solution {
 public:
     string frequencySort(string s) {
         sort(s.begin(),s.end());
-        priority_queue<pic> pq;
+        set<pic> pq;
         s+='0';
         string str;
         
@@ -13,7 +13,7 @@ public:
     {
         if(s[i-1]==s[i]) j++;
         else{ 
-            pq.push({j,s[i-1]});
+            pq.insert({j,s[i-1]});
             j=1;
             }
         i++;
@@ -21,13 +21,14 @@ public:
         
      
         while(!pq.empty()){
-                auto x = pq.top();
-                int c = x.first;
+                auto x = prev(pq.end());
+                int c = x->first;
                 while(c>0){
-                    str+=x.second;
+                    str+=x->second;
                     c--;
                 }
-                pq.pop();
+                 pq.erase(x);
+  
         }
         return str;
     }
