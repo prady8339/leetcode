@@ -1,35 +1,22 @@
-#define pic pair<int,char>
 class Solution {
 public:
     string frequencySort(string s) {
-        sort(s.begin(),s.end());
-        set<pic> pq;
-        s+='0';
-        string str;
-        
-       int i = 1 ,j=1 ;
-           
-    while( i < s.length())
-    {
-        if(s[i-1]==s[i]) j++;
-        else{ 
-            pq.insert({j,s[i-1]});
-            j=1;
-            }
-        i++;
-    }
-        
-     
-        while(!pq.empty()){
-                auto x = prev(pq.end());
-                int c = x->first;
-                while(c>0){
-                    str+=x->second;
-                    c--;
-                }
-                 pq.erase(x);
-  
+        unordered_map<char,int> un;
+        for(auto &su:s){
+            un[su]++;
         }
-        return str;
+       map<int, string> mp;
+        for(auto v : un) {
+            char c = v.first;
+            int n = v.second;
+            mp[n] += string(n, c);
+        }
+        
+        string res;
+        for(auto rit = mp.rbegin(); rit != mp.rend(); ++rit) {
+            res += rit->second;
+        }
+        return res;
+        
     }
 };
