@@ -21,7 +21,7 @@ public:
             slow=slow->next;
         }
         if(fast!=NULL) slow=slow->next;
-        cout<<st.top()<<" "<<slow->val;
+
         while(!st.empty() && slow!=NULL){
             if(st.top() != slow->val) return 0;
             st.pop();
