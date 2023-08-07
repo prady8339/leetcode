@@ -33,13 +33,13 @@ public:
             }
         } 
         //cout<<count<<endl;  
-        if(count==0) {
-             int currLen = ptr.second-ptr.first;
-                if(j-i<currLen) {
-                    ptr.first = i;
-                    ptr.second = j;
-                }
-        }
+        // if(count==0) {
+        //      int currLen = ptr.second-ptr.first;
+        //         if(j-i<currLen) {
+        //             ptr.first = i;
+        //             ptr.second = j;
+        //         }
+        // }
         if(ptr.second==INT_MAX) return "";
         return s.substr(ptr.first,ptr.second-ptr.first);
     }
