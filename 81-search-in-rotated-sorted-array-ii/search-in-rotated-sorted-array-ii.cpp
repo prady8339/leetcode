@@ -8,6 +8,7 @@ public:
             if(nums[mid]==target) return true;
             else if(nums[mid]==nums[start] && nums[start]==nums[end]) {
                 start=start+1; 
+                end=end-1;
                 continue;
             }
             else if(nums[mid]>=nums[start]){
