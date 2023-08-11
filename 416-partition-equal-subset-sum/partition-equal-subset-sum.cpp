@@ -14,22 +14,15 @@ public:
         for(int i=nums.size()-1; i>=0; i--)
         {
             set<int> temp;
-            for(int k: dp)
+            for(int j: dp)
             {
-                temp.insert(k);
-            }
-            
-            for(int j: temp)
-            {
+                temp.insert(j);
                 if(j + nums[i] == target) return true;
-                dp.insert(j + nums[i]);
+                temp.insert(j + nums[i]);
             }
+            dp=temp;
         }
         
-        // for(int i:dp)
-        // {
-        //     if(i == target) return true;
-        // }
         return false;
     }
 };
