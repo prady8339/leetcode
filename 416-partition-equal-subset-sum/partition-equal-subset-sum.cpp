@@ -1,4 +1,13 @@
 class Solution {
+    private:
+    bool solve(vector<int> &nums,vector<vector<int>> &dp,int idx,int target){
+        if(idx>=nums.size() || target<0) return 0;
+        if(target==0) return 1;
+        if(dp[idx][target]!=-1) return dp[idx][target];
+        bool pick = solve(nums,dp,idx+1,target-nums[idx]);
+        bool npick = solve(nums,dp,idx+1,target);
+        return dp[idx][target]=(pick)||(npick);
+    }
 public:
     bool canPartition(vector<int>& nums) {
         int sum = 0;
@@ -7,22 +16,10 @@ public:
             sum += nums[i];
         }
         if(sum % 2 != 0) return false;
-        unordered_set<int> dp;
-        dp.insert(0);
+
         int target = sum / 2;
-        
-        for(int i=nums.size()-1; i>=0; i--)
-        {
-            unordered_set<int> temp;
-            for(int j: dp)
-            {
-                temp.insert(j);
-                if(j + nums[i] == target) return true;
-                temp.insert(j + nums[i]);
-            }
-            dp=temp;
-        }
-        
-        return false;
+
+        vector<vector<int>> dp(nums.size()+1,vector<int> (target+1,-1));
+       return solve(nums,dp,0,target);
     }
 };
