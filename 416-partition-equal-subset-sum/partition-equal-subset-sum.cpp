@@ -7,13 +7,13 @@ public:
             sum += nums[i];
         }
         if(sum % 2 != 0) return false;
-        set<int> dp;
+        unordered_set<int> dp;
         dp.insert(0);
         int target = sum / 2;
         
         for(int i=nums.size()-1; i>=0; i--)
         {
-            set<int> temp;
+            unordered_set<int> temp;
             for(int j: dp)
             {
                 temp.insert(j);
