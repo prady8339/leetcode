@@ -3,7 +3,7 @@ class Solution {
 public:
     int uniquePathsWithObstacles(vector<vector<int>>& og) {
          int n = og.size(), m = og[0].size();
-        vector<vector<long long>> dp(n, vector<long long>(m, 0));
+        vector<vector<int>> dp(n, vector<int>(m, 0));
 
         // Initialize the first cell to 1 if it's not an obstacle
         if (og[0][0] == 0)
@@ -15,7 +15,7 @@ public:
                 dp[i][0] = dp[i - 1][0];
         }
 
-        // Initialize the first row
+        // // Initialize the first row
         for (int j = 1; j < m; j++) {
             if (og[0][j] == 0)
                 dp[0][j] = dp[0][j - 1];
