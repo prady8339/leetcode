@@ -11,8 +11,8 @@
 class Solution {
 public:
     ListNode* partition(ListNode* head, int x) {
-        ListNode before_head,after_head;
-        ListNode *before= &before_head, *after = &after_head;
+        ListNode *before_head= new ListNode(0),*after_head = new ListNode(0);
+        ListNode *before= before_head, *after = after_head;
 
         ListNode* temp = head;
         while(temp){
@@ -27,8 +27,8 @@ public:
         }
 
         after->next = NULL;
-        before->next = after_head.next;
+        before->next = after_head->next;
 
-        return before_head.next;
+        return before_head->next;
     }
 };
