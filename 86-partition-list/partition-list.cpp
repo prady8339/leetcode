@@ -1,23 +1,53 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
 class Solution {
 public:
     ListNode* partition(ListNode* head, int x) {
-        ListNode before_head, after_head; // dummy nodes
-        ListNode *before = &before_head, *after = &after_head;
-        
-        while (head) {
-            if (head->val < x) {
-                before->next = head;
-                before = before->next;
+        if(!head || !head->next) return head;
+        ListNode *before = NULL, *after = NULL;
+        ListNode *before_head=NULL,*after_head=NULL;
+
+        ListNode *temp = head;
+        while (temp) {
+            if (temp->val < x) {
+                if(!before_head){
+                    before_head=temp;
+                    before=before_head;
+                }else{
+                    before->next=temp;
+                    before = before->next;
+                }
+               
+                
             } else {
-                after->next = head;
-                after = after->next;
+
+                if(!after_head){
+                    after_head=temp;
+                    after=after_head;
+                }else{
+                    after->next = temp;
+                    after=after->next;
+                }  
+                
             }
-            head = head->next;
+            temp = temp->next;
         }
+
+        if(after)
+        after->next = NULL;  
         
-        after->next = nullptr;  // Important! This prevents a cycle in the list.
-        before->next = after_head.next;  // Concatenate before list and after list
-        
-        return before_head.next;
+        if(before)
+        before->next = after_head; 
+        else return head;
+
+        return before_head;
     }
 };
