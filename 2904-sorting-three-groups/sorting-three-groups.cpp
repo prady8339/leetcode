@@ -1,20 +1,34 @@
 class Solution {
-public:
-    int solve(vector<int>& nums, int i, int last, vector<vector<int>>& dp){
-        if(i < 0 ) return 0;
-        if(last < 1) return 1000;
-        if(dp[i][last] != -1 ) return dp[i][last];
-        int res = INT_MAX;
-        if(last == nums[i]) res = solve(nums, i-1, last, dp);
+    
+     int solve(int idx,int grp,vector<int> &nums,vector<vector<int>> &dp){
+        
+        if(idx>=nums.size()) return 0;
+        if(grp>3) return 1e5;
+       
+        int curr = nums[idx];
+
+        if(dp[idx][grp]!=-1) return dp[idx][grp];
+
+        int res = 1e5;
+
+        if(nums[idx]==grp) res = solve(idx+1,grp,nums,dp);
         else{
-            if(nums[i] < last) res = min(res, solve(nums, i-1, nums[i], dp));
-            res = min(res, 1 + solve(nums, i-1, last, dp));
-            res = min(res, 1 + solve(nums, i-1, last-1, dp));
+            if(nums[idx] > grp) res = min(res,solve(idx+1,nums[idx],nums,dp));
+            res = min(res,1+solve(idx+1,grp,nums,dp));
+            res = min(res,1+solve(idx+1,grp+1,nums,dp));
         }
-        return dp[i][last] = res;
+
+        return dp[idx][grp] = res;
+        
     }
+public:
     int minimumOperations(vector<int>& nums) {
-        vector<vector<int>> dp(nums.size()+1, vector<int>(4, -1));
-        return solve(nums, nums.size()-1, 3, dp);
+       int n = nums.size();
+        if(n==1 || n==0) return 0;
+        //n+1x4 dp
+        int grp = 1;
+        vector<vector<int>> dp(n+1,vector<int> (4,-1));
+        int ans = solve(0,grp,nums,dp);
+        return ans;
     }
 };
