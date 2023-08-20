@@ -1,81 +1,88 @@
-class Solution {
+class UnionFind {
+private:
+    int numSets;
+    vector<int> parent;
+    vector<int> rank;
 public:
-    vector<int>parent;
-    void disjoint(int size){
-        parent.resize(size+1);
-        for(int i=0;i<=size;i++)
-        parent[i]=(i);
-    }
-    int find(int u){
-        if(parent[u]==u)return u;
-        return parent[u] = find(parent[u]);
-    }
-    void merge(int u,int v){
-        int ua = find(u);
-        int ub = find(v);
-        parent[ua] = ub;
-    }
-    int help1(vector<vector<int>>& e,int j,int n){
-        disjoint(n+1);
-        vector<pair<int,pair<int,int>>>v;
-        for(int i=0;i<e.size();i++){
-            if(i==j)continue;
-            v.push_back({e[i][2],{e[i][0],e[i][1]}});
+    UnionFind(int n) {
+        numSets = n;
+        parent.resize(n);
+        rank.resize(n, 0);
+        for(int i = 0; i < n; i++) {
+            parent[i] = i;
         }
-        sort(v.begin(),v.end());
-        int mst_weight = 0;
-        int edges = 0;
-        for(int i=0;i<v.size();i++){
-            auto x = v[i];
-            int u = find(x.second.first);
-            int v = find(x.second.second);
-            if(u!=v){
-                edges++;
-                mst_weight += x.first;
-                merge(u,v);
-            } 
-        }
-        if(edges!=n-1)return INT_MAX;
-        return mst_weight;
     }
-    int help2(vector<vector<int>>& e,int j,int n){
-        disjoint(n+1);
-        int mst_weight = e[j][2];
-        merge(e[j][1],e[j][0]);
-        vector<pair<int,pair<int,int>>>v;
-        for(int i=0;i<e.size();i++){
-            if(i==j)continue;
-            v.push_back({e[i][2],{e[i][0],e[i][1]}});
-        }
-        sort(v.begin(),v.end());
-        for(int i=0;i<v.size();i++){
-            auto x = v[i];
-            int u = find(x.second.first);
-            int v = find(x.second.second);
-            if(u!=v){
-                mst_weight += x.first;
-                merge(u,v);
-            } 
-        }
-        return mst_weight;
+
+    int getSets() {
+        return numSets;
     }
-    vector<vector<int>> findCriticalAndPseudoCriticalEdges(int n, vector<vector<int>>& e) {
-        disjoint(n+1);
-        int mst_weight = help1(e,-1,n);
-        vector<vector<int>>ans;
-        vector<int>v1,v2;
-        for(int i=0;i<e.size();i++){
-            int new_weight1 = help1(e,i,n);
-            int new_weight2 = help2(e,i,n);
-            if(new_weight1 > mst_weight){
-                v1.push_back(i);
+
+    int getParent(int u) {
+        if(parent[u] != u) {
+            return getParent(parent[u]);
+        }
+        return parent[u];
+    }
+
+    void unionSets(int u, int v) {
+        int p1 = getParent(u), p2 = getParent(v);
+        if(p1 == p2) {
+            return;
+        }
+        if(rank[p1] > rank[p2]) {
+            parent[p2] = p1;
+        }
+        else if(rank[p1] < rank[p2]) {
+            parent[p1] = p2;
+        }
+        else {
+            parent[p2] = p1;
+            rank[p1]++;
+        }
+        numSets--;
+    }
+};
+
+class Solution {
+private:
+    int getMST(int n, vector<vector<int>>& treeEdges, vector<int> includedEdge, vector<int> excludedEdge) {
+        UnionFind uf(n);
+        int cost = 0;
+        if(!includedEdge.empty()) {
+            uf.unionSets(includedEdge[1], includedEdge[2]);
+            cost += includedEdge[0];
+        }
+        for(auto edge : treeEdges) {
+            if(uf.getSets() == 1) {
+                break;
             }
-           else if(new_weight2 == mst_weight){
-                v2.push_back(i);
+            if(edge == excludedEdge || edge == includedEdge || uf.getParent(edge[1]) == uf.getParent(edge[2])) {
+                continue;
+            }
+            uf.unionSets(edge[1], edge[2]);
+            cost += edge[0];
+        }
+        return uf.getSets() == 1 ? cost : INT_MAX;
+    }
+public:
+    vector<vector<int>> findCriticalAndPseudoCriticalEdges(int n, vector<vector<int>>& edges) {
+        vector<vector<int>> result(2);
+        vector<vector<int>> treeEdges;
+        int x = 0;
+        for(auto edge : edges) {
+            treeEdges.push_back({edge[2], edge[0], edge[1], x++});
+        }
+        sort(treeEdges.begin(), treeEdges.end());
+        int mstCost = getMST(n, treeEdges, {}, {});
+        for(auto edge : treeEdges) {
+            if(mstCost < getMST(n, treeEdges, {}, edge)) {
+                result[0].push_back(edge[3]);
+            }
+            else if(mstCost == getMST(n, treeEdges, edge, {})) {
+                result[1].push_back(edge[3]);
             }
         }
-        ans.push_back(v1);
-        ans.push_back(v2);
-        return ans;
+        
+        return result;
     }
 };
