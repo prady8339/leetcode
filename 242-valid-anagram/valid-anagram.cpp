@@ -1,13 +1,16 @@
 class Solution {
 public:
     bool isAnagram(string s, string t) {
-        unordered_map<char,int> um1,um2;
+        unordered_map<char,int> um;
         for(auto &element : s){
-            um1[element]++;
+            um[element]++;
         }
         for(auto &element : t){
-            um2[element]++;
+            um[element]--;
         }
-        return um1==um2;
+        for(auto &it : um){
+            if(it.second != 0 ) return false;
+        }
+        return true;
     }
 };
