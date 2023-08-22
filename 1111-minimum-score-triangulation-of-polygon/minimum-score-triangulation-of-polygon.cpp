@@ -1,21 +1,25 @@
 class Solution {
-private:
-    int solve(vector<int> &values,int i,int j,vector<vector<int>> &dp){
-        if(i >= j) return 0;
-        if(dp[i][j]!=-1) return dp[i][j];
-        
-        int mini = INT_MAX;
-        for(int k = i ; k < j ; k++){
-            int temp_ans = solve(values,i,k,dp) + solve(values,k+1,j,dp) + values[i-1] * values[k] * values[j];
-            mini = min(temp_ans,mini);
-        }
-        
-        return dp[i][j] = mini;
-    }
 public:
     int minScoreTriangulation(vector<int>& values) {
         int n = values.size();
-        vector<vector<int>> dp( n+1 , vector<int> (n+1,-1));
-        return solve(values,1,n-1,dp);
+        vector<vector<int>> dp(n ,vector<int> (n));
+        for(int i = 0 ; i < n ; i++){
+            dp[i][i] = 0;
+        }
+
+        for(int i = n-1 ; i >= 1 ;i--){
+            for(int j = i+1 ; j < n ; j++){
+                int mini = 1e9;
+                for(int k = i ; k < j ; k++){
+                    int temp_ans = dp[i][k] + dp[k+1][j] + values[i-1]*values[k]*values[j];
+                    if(temp_ans < mini){
+                        mini = temp_ans;
+                    }
+                }
+                dp[i][j] = mini;
+            }
+        }
+
+        return dp[1][n-1];
     }
 };
