@@ -5,7 +5,7 @@ private:
             return true;
         }
         
-        int key = n1 * 10000 + n2 * 100 + n3;  // Create a unique key for memoization
+        int key = n1 * 100 + n2  ;  // Create a unique key for memoization
         
         if (dp.find(key) != dp.end()) {
             return dp[key];
