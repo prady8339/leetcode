@@ -24,23 +24,15 @@ private:
     unordered_map<Node*,Node*> ump;
 public:
     Node* cloneGraph(Node* node) {
-        if(node == nullptr) {
+        if(!node) {
             return nullptr;
         }
-        Node* newNode = new Node(node->val);
-        ump[node] = newNode;
-        vector<Node*>& vec = newNode->neighbors;
-        for(auto& neighbor : node->neighbors) {
-            if(ump.find(neighbor) == ump.end()) {
-                Node* addNode = cloneGraph(neighbor);
-                vec.push_back(addNode);
-            }
-            else {
-                if(find(vec.begin(), vec.end(), ump[neighbor]) == vec.end()) {
-                    vec.push_back(ump[neighbor]);
-                }
+        if(ump.find(node) == ump.end()) {
+            ump[node] = new Node(node->val);
+            for(auto& neighbor : node->neighbors) {
+                ump[node]->neighbors.push_back(cloneGraph(neighbor));
             }
         }
-        return newNode;
+        return ump[node];
     }
 };
