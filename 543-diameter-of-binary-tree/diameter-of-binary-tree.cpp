@@ -10,21 +10,24 @@
  * };
  */
 class Solution {
-
 private:
-    int height(TreeNode* root,int &dia){
-        if(root==NULL) return 0;
-        int l = height(root->left,dia);
-        int r = height(root->right,dia);
-        int temp = max(l,r)+1;
-        int ans = max(temp,1+l+r);
-        dia = max(dia,ans);
-        return temp;
+    int helper(TreeNode* root,int &maxi){
+        if(root->left == NULL && root->right == NULL) return 0;
+
+        int l = 0,r = 0;
+        if(root->left!=NULL)
+        l = 1+helper(root->left,maxi);
+        if(root->right!=NULL)
+        r = 1+helper(root->right,maxi);
+
+        maxi = max(l+r,maxi);
+
+        return max(l,r);
     }
 public:
     int diameterOfBinaryTree(TreeNode* root) {
-        int dia = INT_MIN;
-        height(root,dia);
-        return dia-1;
+        int maxi = 0;
+        helper(root,maxi);
+        return maxi;
     }
 };
