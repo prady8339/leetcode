@@ -13,50 +13,57 @@ public:
     }
 };
 */
+void print(Node* head){
+    Node *curr = head;
+    while(curr != NULL){
+        cout<<curr->val<<" ";
+        curr = curr-> next;
+    }
+    return ;
+}
 
 class Solution {
 public:
     Node* copyRandomList(Node* head) {
-        Node* temp = head;
-        while(temp!=NULL){
-            Node* nx = temp->next;
-            temp->next = new Node(temp->val);
-            temp->next->next = nx;
-            temp = temp -> next-> next;
-        }
-        temp = head;
-        Node* nhead = NULL;
-        Node* remp = nhead;
 
-        while(temp!=NULL){
-            
-            if(temp->random==NULL)
-            temp->next->random=NULL;
-            else{
-             temp->next->random = temp->random->next;       
-            }
+        Node* curr = head;
+        Node* cpHead = NULL;
 
-            temp=temp->next->next;
-            
+        while(curr != NULL){    
+            Node* temp = curr->next;
+            curr->next = new Node(curr->val);
+            curr->next->next = temp;
+            curr = temp;
         }
 
-        temp = head;
-        
-        while(temp!=NULL){
+        curr = head;
+        while(curr != NULL){
 
-            if(nhead==NULL){
-                nhead=temp->next;
-                remp = nhead;
+            if(curr->random != NULL)
+            curr->next->random = curr->random->next;
+
+            curr = curr->next->next;
+        }
+
+        curr = head;
+        Node* helper = NULL;
+
+        while(curr != NULL){
+
+            if(cpHead==NULL){
+                cpHead = curr->next;
+                helper=cpHead;
             }else{
-            remp->next = temp->next;
-            remp=remp->next;
+                helper->next = curr->next;
+                helper = helper->next;
             }
-
-            temp->next = temp->next->next;
-            temp=temp->next;
+                
+            curr->next = curr->next->next;
+            curr = curr->next;
         }
-
-        return nhead;
-
+        //print(cpHead);
+        // cout<<endl;
+        //  print(head);
+        return cpHead;
     }
 };
