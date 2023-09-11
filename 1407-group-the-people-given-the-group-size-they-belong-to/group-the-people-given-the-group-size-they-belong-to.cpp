@@ -1,36 +1,20 @@
 class Solution {
 public:
-    vector<vector<int>> groupThePeople(vector<int>& gs) {
-        map<int,int> ds;
+    vector<vector<int>> groupThePeople(vector<int>& groupSizes) {
         vector<vector<int>> ans;
-        int n = gs.size();
-        for(int i = 0 ; i < n ; i++){
-           ds[gs[i]]++;
-        }
-         for(auto &x:ds){
-             ds[x.first] = ds[x.first]/x.first; 
-         }
-        vector<bool> vis(n);
-        queue<int> q;
-        for(auto &x : ds){
-            q.push(x.first);
-        }
-        while(!q.empty()){
-            int grp = q.front();
-            ds[grp]--;
-            if(ds[grp]<=0) q.pop();
-
-            vector<int> temp(grp);
-            int j = 0;
-            for(int i= 0 ; i < n && j < grp; i++){
-                if(vis[i]) continue;
-                if(gs[i] == grp){
-                    temp[j++] = i;
-                    vis[i]=1;
-                }
+        
+        // A map from group size to the list of indices that are there in the group.
+        vector<int> szToGroup[groupSizes.size() + 1];
+        for (int i = 0; i < groupSizes.size(); i++) {
+            szToGroup[groupSizes[i]].push_back(i);
+            
+            // When the list size equals the group size, empty it and store it in the answer.
+            if (szToGroup[groupSizes[i]].size() == groupSizes[i]) {
+                ans.push_back(szToGroup[groupSizes[i]]);
+                szToGroup[groupSizes[i]].clear();
             }
-            ans.push_back(temp);
         }
+        
         return ans;
     }
-};
+}; 
