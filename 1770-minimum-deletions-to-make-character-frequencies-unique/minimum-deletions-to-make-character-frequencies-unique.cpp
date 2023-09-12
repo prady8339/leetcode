@@ -1,15 +1,15 @@
 class Solution {
 public:
     int minDeletions(string s) {
-        int frequency[26] = {0}; //
+        unordered_map<int,int> frequencies;
         unordered_set<int> unique_frequencies;
         int deletions = 0;
 
         for (char ch : s) {
-            frequency[ch - 'a']++; 
+            frequencies[ch]++;
         }
 
-        for (int freq : frequency) {
+        for (auto [ch,freq] : frequencies) {
             while (freq > 0 && unique_frequencies.count(freq)) {
                 deletions++;
                 freq--;
