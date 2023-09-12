@@ -5,11 +5,11 @@ public:
         unordered_set<int> unique_frequencies;
         int deletions = 0;
 
-        for (char ch : s) {
+        for (char &ch : s) {
             frequencies[ch]++;
         }
 
-        for (auto [ch,freq] : frequencies) {
+        for (auto &[ch,freq] : frequencies) {
             while (freq > 0 && unique_frequencies.count(freq)) {
                 deletions++;
                 freq--;
