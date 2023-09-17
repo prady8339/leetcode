@@ -1,52 +1,36 @@
 class Solution {
-
-    vector<vector<int>> dirs{{1,0},{-1,0},{0,1},{0,-1}};
 private:
-    bool solve(vector<vector<char>>& board, string word,vector<vector<bool>>& vis,int i,int j,int k){
-        if(k>=word.size()) return true;
-        if(i<0 || i>=board.size() || j<0 || j>=board[0].size())
-            return false;
-        if(vis[i][j]) return false;
-        if(board[i][j]!=word[k]) return false;
-        vis[i][j] = true;
+    vector<vector<int>> dirs{{1,0},{-1,0},{0,1},{0,-1}};
+    bool check(vector<vector<char>>& board, string &word,int idx,int i,int j){
+        int n = board.size();
+        int m = board[0].size();
+        if(idx>=word.size()) return true;
+        if(i >= n || i<0 || j >= m || j < 0) return false;
+        if(board[i][j] != word[idx]) return false;
+        if(board[i][j]=='#') return false;
 
-        bool cal = 0;
+        bool ans = false;
         for(auto &dir : dirs){
-            int x = i+dir[0];
-            int y = j+dir[1];
-            if(solve(board,word,vis,x,y,k+1)) return true;
+            char preserve = board[i][j];
+            board[i][j] = '#';
+            ans = ans | check(board,word,idx+1,i+dir[0],j+dir[1]);
+            board[i][j] = preserve;
         }
-
-        // bool c1 = solve(board,word,vis,i+1,j,k+1);
-        // bool c2 = solve(board,word,vis,i-1,j,k+1);
-        // bool c3 = solve(board,word,vis,i,j+1,k+1);
-        // bool c4 = solve(board,word,vis,i,j-1,k+1);
-        
-        vis[i][j] = false;
-
-        return false;
-
+        return ans;
     }
-void setvals(vector<vector<bool>>& vis){
-    for(int i = 0 ; i< vis.size() ; i++){
-        for(int j = 0 ; j < vis[i].size() ; j++){
-            vis[i][j]=0;
-        }
-    }
-}
-public:
+public: 
     bool exist(vector<vector<char>>& board, string word) {
-        vector<vector<bool>> vis(board.size(),vector<bool> (board[0].size()));
-        for(int i = 0 ; i < board.size() ; i++){
-            for(int j = 0 ; j < board[i].size() ;j++){
-                setvals(vis);
-                if(board[i][j]==word[0]){
-                    if(solve(board,word,vis,i,j,0)) return true;
+        int n = board.size();
+        int m = board[0].size();
+
+        for(int i = 0 ; i < n ; i++){
+            for(int j = 0 ; j < m ; j++){
+                if(word[0]==board[i][j]){
+                    if(check(board,word,0,i,j)) return true;
                 }
             }
         }
+        
         return false;
     }
 };
-
-// 20 mimn
