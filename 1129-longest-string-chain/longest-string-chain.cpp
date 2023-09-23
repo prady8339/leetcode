@@ -14,14 +14,15 @@ bool isSubseq(string &a,string &b){
 int solve(unordered_map<int,vector<string>> &ds,unordered_map<string,int> &dp,int sz,string word){
     if(sz<=0) return 0;
     int res = 0;
+
     if(dp.count(word)) return dp[word];
-    if(sz-1>=0){
-        for(auto &a:ds[sz-1]){
-            if(isSubseq(a,word)){
-                res = max(res,solve(ds,dp,sz-1,a));
-            }
+   
+    for(auto &a:ds[sz-1]){
+        if(isSubseq(a,word)){
+            res = max(res,solve(ds,dp,sz-1,a));
         }
     }
+    
     return dp[word] = res+1;
 }
 public:
@@ -34,13 +35,12 @@ public:
         
         unordered_map<string,int> dp;
         int maxi = 0;
-        for(auto &grp:ds){
-            int sz = grp.first;
-            for(auto &word:grp.second){
-                int temp = solve(ds,dp,sz,word);
-                maxi = max(temp,maxi);
-            }
+        
+        for(auto &word:words){
+            int temp = solve(ds,dp,word.size(),word);
+            maxi = max(temp,maxi);
         }
+        
         return maxi;
     }
 };
