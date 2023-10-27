@@ -1,34 +1,39 @@
 class Solution {
+private:
+    bool isPal(string s){
+        int l = 0, r = s.size()-1;
+        while(l<r){
+            if(s[l]!=s[r]) return 0;
+            l++; r--;
+        }
+        return 1;
+    }
 public:
     string longestPalindrome(string s) {
-        int n = s.size();
-        int pal_pos = 0;
-        int pal_len = 0;
+           int n = s.size();
+           string ans ;
+           int maxi = 0;
+           for(int i = 0 ; i < n ; i++){
+               int l = i, r = i;
+               while(r < n && l>=0 && s[l]==s[r]){
+                   if(r-l+1 > maxi){
+                       maxi = r-l+1;
+                       ans = s.substr(l,r-l+1);
+                   }
+                   l--; r++;
 
-        for(int i = 0 ; i < n ; i++){
-            // expand from middle
-            int left = i , right = i;
-            //odd length palindrom 
-            while(left >= 0 && right < n && s[left]==s[right]){
-                if(right - left + 1 > pal_len ){
-                    pal_len = right - left + 1;
-                    pal_pos = left;
-               
-                }
-                left--; right++;
-            }
-            //even length palindrom
-            left = i , right = i+1;
-            while(left >= 0 && right < n && s[left]==s[right]){
-                if(right - left + 1 > pal_len ){
-                    pal_len = right - left + 1;
-                    pal_pos = left;
-                }
-                left--; right++;
-            }
-        }
-        return s.substr(pal_pos,pal_len);
- 
+               }
+               l=i,r = i+1;
+               while(r < n && l>=0 && s[l]==s[r]){
+                   if(r-l+1 > maxi){
+                       maxi = r-l+1;
+                       ans = s.substr(l,r-l+1);
+                   }
+                    l--; r++;
+               }
+
+           }
+
+           return ans;                      
     }
-    
 };
