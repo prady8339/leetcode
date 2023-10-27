@@ -1,13 +1,4 @@
 class Solution {
-private:
-    bool isPal(string s){
-        int l = 0, r = s.size()-1;
-        while(l<r){
-            if(s[l]!=s[r]) return 0;
-            l++; r--;
-        }
-        return 1;
-    }
 public:
     string longestPalindrome(string s) {
            int n = s.size();
