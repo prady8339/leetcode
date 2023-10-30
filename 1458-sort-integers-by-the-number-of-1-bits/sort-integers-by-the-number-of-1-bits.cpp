@@ -1,14 +1,15 @@
 class Solution {
+static bool cmp(int a,int b){
+    int ctA = __builtin_popcount(a);
+    int ctB = __builtin_popcount(b);
+    if(ctA == ctB){
+        return a < b;
+    }
+    return ctA < ctB;
+}
 public:
     vector<int> sortByBits(vector<int>& arr) {
-        multiset<pair<int,int>> st;
-        for(auto &x : arr){
-            st.insert({__builtin_popcount(x),x});
-        }
-        vector<int> ans;
-        for(auto &[_,x] : st){
-            ans.push_back(x);
-        }
-        return ans;
+        sort(arr.begin(),arr.end(),cmp);
+        return arr;
     }
 };
