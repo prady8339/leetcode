@@ -1,33 +1,30 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution {
-    int maxi = 0;
-void solve(unordered_map<int,int> &freq,TreeNode* root){
-    if(!root) return ;
-    freq[root->val]++;
-    if(freq[root->val] > maxi) maxi = freq[root->val];
-    solve(freq,root->left);
-    solve(freq,root->right);
-}
 public:
-    vector<int> findMode(TreeNode* root) {
-        unordered_map<int,int> freq;
-        solve(freq,root);
-        vector<int> ans;
-        for(auto &[first,second]: freq){
-            if(second==maxi){
-                ans.push_back(first);
-            }
+    int maxFreq = 0, currFreq = 0, precursor = INT_MIN;
+    vector<int> res;
+
+    vector<int> findMode(TreeNode *root)
+    {
+        inorderTraversal(root);
+        return res;
+    }
+
+    void inorderTraversal(TreeNode *root)
+    {
+        if (root == NULL) return; 
+        inorderTraversal(root->left); 
+        if (precursor == root->val) currFreq++;
+        else currFreq = 1;
+        if (currFreq > maxFreq)
+        {
+            maxFreq = currFreq;
+            res = {root->val};
         }
-        return ans;
+        else if (currFreq == maxFreq)
+        {
+            res.push_back(root->val);
+        }
+        precursor = root->val; 
+        inorderTraversal(root->right); 
     }
 };
