@@ -10,12 +10,12 @@ public:
             if(s[i]==prev){
                 ct++;
             }else{
-                sum = (sum + (static_cast<long long>(ct) * (ct + 1)) / 2) % mod;
+                sum = (sum + (1ll * ct * (ct + 1)) / 2) % mod;
                 prev = s[i];
                 ct = 1;
             }
         }
-        sum = (sum + (static_cast<long long>(ct) * (ct + 1)) / 2) % mod;
+        sum = (sum + (1ll * ct * (ct + 1)) / 2) % mod;
         return sum;
     }
 };
