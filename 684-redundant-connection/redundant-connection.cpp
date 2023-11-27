@@ -23,8 +23,11 @@ class DSU{
         return true;
     }
     int find(int node){
-        if(parent[node] == node) return node;
-        return parent[node] = find(parent[node]);
+        while (node != parent[node]) {
+            parent[node] = parent[parent[node]];
+            node = parent[node];
+        }
+        return node;
     }
 };
 
