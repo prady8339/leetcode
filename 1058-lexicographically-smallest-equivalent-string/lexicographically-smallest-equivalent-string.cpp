@@ -1,5 +1,6 @@
 class DSU {
     vector<int> rank, parent;
+
 public:
     DSU() : rank(26, 1), parent(26) {
         for (int i = 0; i < 26; i++) {
@@ -37,23 +38,31 @@ public:
             d.join(s1[i], s2[i]);
         }
 
-        unordered_map<int, vector<char>> grpMin;
+        unordered_map<int, char> grpMin;
 
         for (int i = 0; i < s1.size(); i++) {
             int p1 = d.find(s1[i] - 'a');
             int p2 = d.find(s2[i] - 'a');
-            grpMin[p1].push_back(s1[i]);
-            grpMin[p2].push_back(s2[i]);
+
+            if (grpMin.count(p1))
+                grpMin[p1] = min(grpMin[p1], s1[i]);
+            else
+                grpMin[p1] = s1[i];
+
+            if (grpMin.count(p2))
+                grpMin[p2] = min(grpMin[p2], s2[i]);
+            else
+                grpMin[p2] = s2[i];
         }
 
         string res;
         for (auto &base : baseStr) {
             int parent = d.find(base - 'a');
-            if (!grpMin[parent].empty()) {
-                char val = *min_element(grpMin[parent].begin(), grpMin[parent].end());
+            if (grpMin.count(parent)) {
+                char val = grpMin[parent];
                 res += val;
             } else {
-                res += base;  
+                res += base;
             }
         }
 
