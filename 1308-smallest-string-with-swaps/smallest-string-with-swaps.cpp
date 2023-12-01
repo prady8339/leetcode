@@ -47,7 +47,6 @@ public:
             ds[par].push_back(s[i]);
         }
         for(auto &[_, arr] : ds){
-            cout<<arr.size()<<endl;
             sort(arr.begin(),arr.end(),greater<char> ());
         }
         for(int i = 0 ; i < n ; i++){
