@@ -24,11 +24,7 @@ class Solution {
         }
       
         for (int k = 0; k < nums1.length; k++) {
-            if (k < nums3.size()) {
                 nums1[k] = nums3.get(k);
-            } else {
-                nums1[k] = Integer.MAX_VALUE; // Filling remaining space in nums1
-            }
         }
        
     }
