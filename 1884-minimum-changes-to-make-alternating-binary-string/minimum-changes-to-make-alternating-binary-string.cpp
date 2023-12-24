@@ -1,24 +1,24 @@
 class Solution {
 public:
     int minOperations(string s) {
-        int azero = 0, aone = 0, bzero = 0, bone = 0;
+        int a = 0, b = 0;
         for(int i = 0 ; i < s.size() ; i++){
             if(i&1){
                 //a zero b one
                 if(s[i]=='1'){
-                    azero++;
+                    a++;
                 }else{
-                    bone++;
+                    b++;
                 }
             }else{
                 //a one b zero
                 if(s[i]=='0'){
-                    aone++;
+                    a++;
                 }else{
-                    bzero++;
+                    b++;
                 }
             }
         }
-        return min(azero + aone , bzero + bone);
+        return min(a, b);
     }
 };
