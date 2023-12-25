@@ -22,14 +22,15 @@ int solve(string &s,int i,vector<int> &dp){
 
     if(valid(a)){
         oneStep +=  solve(s, i+1, dp);
-    }
-    else{
+    }else{
+        // cuz not possible anyhow
         return 0;
     }
 
     if(valid(b) && i + 1 < s.size()){
         twoStep +=  solve(s, i+2, dp);
     }
+    //no else cuz it can be possible using oneStep
 
     return dp[i] = oneStep + twoStep;
 }
