@@ -8,7 +8,7 @@ private:
             return dp[idx];
         }
         int a = dfs(ds, idx + 1, dp);
-          int j = std::lower_bound(ds.begin(), ds.end(), ds[idx][1],[](const std::vector<int>& a, int val) { return a[0] < val; }) - ds.begin();
+        int j = lower_bound(ds.begin(), ds.end(), ds[idx][1],[](vector<int>& a, int val) { return a[0] < val; }) - ds.begin();
         int b = ds[idx][2] + dfs(ds, j, dp);
         
         return dp[idx] = max(a, b);
@@ -21,9 +21,7 @@ public:
             vector<int> v {startTime[i], endTime[i], profit[i]};
             ds.push_back(v);
         }
-        sort(ds.begin(), ds.end(), [](const std::vector<int>& a, const std::vector<int>& b) {
-            return a[0] < b[0];
-        });
+        sort(ds.begin(), ds.end());
         vector<int> dp(n, -1);
         return dfs(ds, 0, dp);
     }
