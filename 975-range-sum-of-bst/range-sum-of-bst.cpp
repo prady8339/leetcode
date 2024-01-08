@@ -10,18 +10,25 @@
  * };
  */
 class Solution {
-private:
-    int preorder(TreeNode* root, int &low, int &high){
-        if(!root) return 0;
-        int sum = 0,add = 0;
-        if(root->val >= low && root->val <= high)
-        add = root->val;
-        int a =  preorder(root->left,low,high);
-        int b = preorder(root->right,low,high);
-        return add + a + b;
-    }
 public:
     int rangeSumBST(TreeNode* root, int low, int high) {
-        return preorder(root,low,high);
+        if(!root) return 0;
+        queue<TreeNode*> q;
+        q.push(root);
+        int sum = 0;
+        while(!q.empty()){
+            auto tp = q.front();
+            if(tp->val >= low && tp->val <= high){
+                sum += tp->val;
+            }
+            if(tp->left){
+                q.push(tp->left);
+            }
+            if(tp->right){
+                q.push(tp->right);
+            }
+            q.pop();
+        }
+        return sum;
     }
 };
