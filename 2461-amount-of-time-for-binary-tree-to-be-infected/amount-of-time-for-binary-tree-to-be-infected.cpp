@@ -18,10 +18,8 @@ private:
         }
         TreeNode* a = getStart(root->left , start);
         TreeNode* b = getStart(root->right, start);
-        if(a)
-            return a;
-        else
-            return b;
+
+        return a ? a : b;
     }
     void makeAdj(TreeNode *root,TreeNode *par, unordered_map<int,vector<TreeNode*>> &adj){
          if(!root) return ;
@@ -40,13 +38,16 @@ private:
     }
 public:
     int amountOfTime(TreeNode* root, int start) {
+
         TreeNode* st = getStart(root, start);
         unordered_map<int,vector<TreeNode*>> adj;
-        makeAdj(root,NULL,adj);
         unordered_set<TreeNode*> vis;
         queue<pair<TreeNode*,int>> q;
+        makeAdj(root,NULL,adj);
+
         q.push({st, 0});
         int maxDepth = 0;
+        
         while(!q.empty()){
             auto tp = q.front();
             TreeNode* curr = tp.first;
@@ -63,13 +64,6 @@ public:
             q.pop();
         }
 
-        // for(auto [k, v] : adj){
-        //     cout<<k<<": ";
-        //     for(auto &vec : v){
-        //         cout<<vec->val<<" ";
-        //     }
-        //     cout<<endl;
-        // }
         return maxDepth;
     }
 };
