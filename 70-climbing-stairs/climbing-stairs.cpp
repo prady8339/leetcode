@@ -1,13 +1,17 @@
 class Solution {
+private: 
+    int solve(int n,vector<int> &dp) {
+        if (n == 0) return 1; 
+        if(dp[n]!= -1) return dp[n];
+        int a = solve(n - 1,dp);
+        int b = 0;
+        if (n - 2 >= 0)
+            b =  solve(n - 2,dp);
+        return dp[n] = a + b;
+    }
 public:
     int climbStairs(int n) {
-        if(n <= 2) return n;
-        vector<int> v(n+1);
-        v[0] = 1;
-        v[1] = 1;
-        for(int i = 2; i <= n ; i++){
-            v[i] = v[i-1] + v[i-2];
-        }
-        return v[n];
+        vector<int> dp(n+1, -1);
+        return solve(n,dp);
     }
 };
