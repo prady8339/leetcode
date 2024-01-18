@@ -1,17 +1,13 @@
 class Solution {
 public:
     int climbStairs(int n) {
-        if (n <= 2) {
-            return n; // There are n ways for n=1 and 2 ways for n=2
+        if(n <= 2) return n;
+        vector<int> v(n+1);
+        v[0] = 1;
+        v[1] = 1;
+        for(int i = 2; i <= n ; i++){
+            v[i] = v[i-1] + v[i-2];
         }
-        
-        int prev1 = 1, prev2 = 2;
-        for (int i = 3; i <= n; ++i) {
-            int temp = prev2;
-            prev2 = prev1 + prev2;
-            prev1 = temp;
-        }
-        
-        return prev2;
+        return v[n];
     }
 };
