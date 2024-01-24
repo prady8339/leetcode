@@ -10,48 +10,52 @@
  * };
  */
 class Solution {
-    int ans = 0;
 private:
-   void isPal(vector<int> &v){
-    //    for(int i = 1 ; i < 10 ; i++){
-    //        cout<<v[i]<<" ";
-    //    }
-    //    cout<<endl;
-       int odds = 0, evens = 0;
-       int sz = 0;
-       for(int i = 1; i <= 9 ; i++){
-           if(v[i]&1){ odds++; if(odds>=2) return ; }
-           else evens++;
-           if(v[i]>0) sz+=v[i];
-       }
-      
-       if(sz&1 && odds==1 ){
-         ans++;
-       }else if(sz>0 && odds==0){
-           ans++;
-       }
-    }
-    void dfs(TreeNode* root,vector<int> &v){
-         if(!root){
-            return;
-        }
-        if(!root->left && !root->right){
-            v[root->val]++;
-            isPal(v);
-            v[root->val]--;
-            return ;
-        }
-       
+    int count = 0;
+    int solve(TreeNode* root, unordered_map<int,int> &un){
+        if(!root) return 0;
 
-        v[root->val]++;
-        dfs(root->left,v);
-        dfs(root->right,v);
-        v[root->val]--;
+        un[root->val]++;
+        if(un[root->val] % 2 == 0){
+            count--;
+        }else{
+            count++;
+        }
+
+        if(!root->left && !root->right){
+            un[root->val]--;
+            int addon = 0;
+            if(un[root->val] % 2 == 0){
+                addon = -1;
+            }else{
+               addon = 1;
+            }
+
+            if(count <= 1){
+                count += addon;
+                return 1;
+            }else{
+                count += addon;
+                return 0;
+            }
+        }
+
+        int a = 0;
+        a += solve(root->left, un);
+        a += solve(root->right, un);
+
+        un[root->val]--;
+        if(un[root->val] % 2 == 0){
+            count--;
+        }else{
+            count++;
+        }
+
+        return a;
     }
 public:
     int pseudoPalindromicPaths (TreeNode* root) {
-        vector<int> v(10);
-        dfs(root,v);
-        return ans;
+        unordered_map<int,int> un;
+        return solve(root,un);
     }
 };
