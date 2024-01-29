@@ -16,16 +16,15 @@ public:
         int count = 0;
         for (int r1 = 0; r1 < n; r1++) {
             for (int r2 = r1; r2 < n; r2++) {
-                for (int c1 = 0; c1 < m; c1++) {
-                    for (int c2 = c1; c2 < m; c2++) {
-                        int top = r1 > 0 ? prefix_sum[r1 - 1][c2] : 0;
-                        int left = c1 > 0 ? prefix_sum[r2][c1 - 1] : 0;
-                        int top_left = r1 > 0 && c1 > 0 ? prefix_sum[r1 - 1][c1 - 1] : 0;
-                        int sum = prefix_sum[r2][c2] - top - left + top_left;
-                        if(sum == target){
-                            count++;
-                        }
-                    }
+                unordered_map<int,int> un;
+                un[0] = 1;
+                for (int c = 0; c < m; c++) {
+                    int cur_sum = prefix_sum[r2][c] - (
+                        r1 > 0 ? prefix_sum[r1 - 1][c] : 0
+                    );
+                    int diff = cur_sum - target;
+                    count += un[diff];
+                    un[cur_sum]++;
                 }
             }
         }
