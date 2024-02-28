@@ -10,22 +10,18 @@
  * };
  */
 class Solution {
+void solve(TreeNode* root,vector<int> &ans,int depth){
+    if(!root) return ;
+    if(depth >= ans.size()){
+        ans.push_back(root->val);
+    }
+    solve(root->right,ans,depth+1);
+    solve(root->left,ans,depth+1);
+}
 public:
     vector<int> rightSideView(TreeNode* root) {
         vector<int> ans;
-        if(!root) return ans;
-        queue<TreeNode*> q;
-        q.push(root);
-        while(!q.empty()){
-            int sz = q.size();
-            for(int i = 0 ; i < sz ; i++){
-                TreeNode* tp = q.front();
-                if(i==sz-1) ans.push_back(tp->val);
-                if(tp->left) q.push(tp->left);
-                if(tp->right) q.push(tp->right);
-                q.pop();
-            }
-        }
+        solve(root,ans,0);
         return ans;
     }
 };
