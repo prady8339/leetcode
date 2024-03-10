@@ -44,12 +44,8 @@ public:
             }
         }
         while(line.size() < maxWidth) line.push_back(' ');
-
         ans.push_back(line);
 
-        for(auto &l : ans){
-            cout<<l.size()<<endl;
-        }
         return ans;
     }
 };
