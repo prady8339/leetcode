@@ -1,55 +1,55 @@
 class Solution {
+private:
+    void justifyLine(string &line, int maxWidth){
+        while(!line.empty() && line.back() == ' ') line.pop_back();
+        string justifiedLine;
+        int countSpaces = 0;
+        int lineLength = line.size();
+        for(auto &x : line) if(x == ' ') countSpaces++;
+        if(countSpaces == 0){
+            while(line.size() < maxWidth) line.push_back(' ');
+            return ;
+        }
+        int spaceToAdd = (maxWidth - lineLength) / countSpaces;
+        int addOn = (maxWidth - lineLength) % countSpaces;
+        for(int i = 0 ; i < line.size() ; i++){
+            if(line[i] == ' '){
+                int temp = spaceToAdd + (addOn > 0);
+                addOn--;
+                while(temp){
+                    justifiedLine += " ";
+                    temp--;
+                }
+            }
+            justifiedLine.push_back(line[i]);
+        }
+        while(justifiedLine.size() < maxWidth) justifiedLine.push_back(' ');
+        line = justifiedLine;
+    }
 public:
     vector<string> fullJustify(vector<string>& words, int maxWidth) {
-        vector<string>res;
-        int n=words.size();
-        int i=0;
-        while(i<n){
-            int j=i+1;
-            int c=words[i].size();
-            int wc=words[i].size();
-            while(j<n&&c+words[j].size()+1<=maxWidth){
-                c+=words[j].size()+1;
-                wc+=words[j].length();
-                j++;
+        vector<string> ans;
+        string line ;
+        for(auto &word : words){
+
+            if(line.size() + word.size() > maxWidth){
+                justifyLine(line,maxWidth);
+                ans.push_back(line);
+                line = "";
             }
-           if(j==n||(j-i)==1){
-               string s="";
-               for(int p=i;p<j;p++){
-                   s+=words[p];
-                   if(p!=j-1)
-                   s+=' ';
-               }
-               int ts=maxWidth-s.size();
-               for(int k=0;k<ts;k++){
-                   s+=' ';
-               }
-               res.push_back(s);
-               i=j-1;
-           }
-           else{
-             int tw=j-i;
-             int ts=maxWidth-wc;
-             int es=ts/(tw-1);
-             int extra=ts%(tw-1);
-             string s="";
-             for(int p=i;p<j;p++){
-                 s+=words[p];
-                 if(extra>0){
-                    s+=' ';
-                    extra--;
-                 }
-                 if(p!=j-1){
-                for(int k=0;k<es;k++){
-                   s+=' ';
-               }
-                 }
-             }
-             res.push_back(s);
-              i=j-1;
-           }
-           i++;
+
+            line += word;
+            if(line.size() < maxWidth){
+                line += " ";
+            }
         }
-        return res;
+        while(line.size() < maxWidth) line.push_back(' ');
+
+        ans.push_back(line);
+
+        for(auto &l : ans){
+            cout<<l.size()<<endl;
+        }
+        return ans;
     }
 };
