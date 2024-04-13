@@ -5,7 +5,6 @@ public:
         int sum = 0;
         int lmax = h[0], rmax = h[r];
         while(l < r){
-            
             if(h[l] < h[r]){
                 if(lmax - h[l] > 0)
                     sum += lmax - h[l];
