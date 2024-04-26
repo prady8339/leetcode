@@ -2,8 +2,8 @@ class Solution {
 public:
     int solve(vector<vector<int>>&grid,int i,int pc,vector<vector<int>>&dp){
         if(i >= grid.size()) return 0;
-        if(dp[i][pc]!=-1)return dp[i][pc];
-        int mini=1e8;
+        if(dp[i][pc] != INT_MAX)return dp[i][pc];
+        int mini = INT_MAX;
         for(int j=0;j<grid.size();j++){
             if(j == pc) continue;
             int a = grid[i][j] + solve(grid,i+1,j,dp);
@@ -14,7 +14,7 @@ public:
     }
     int minFallingPathSum(vector<vector<int>>& grid) {
         int n=grid.size();
-        vector<vector<int>>dp(n,vector<int>(n+1,-1));
-        return solve(grid,0,n,dp);
+        vector<vector<int>>dp(201,vector<int>(201,INT_MAX));
+        return solve(grid, 0, n, dp);
     }
 };
