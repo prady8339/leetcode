@@ -1,15 +1,15 @@
 class Solution {
 public:
     int getAns(vector<vector<int>>&grid,int n,int prev,vector<vector<int>>&dp){
-        if(n==0){
-            int mini=1e8;
-            for(int i=0;i<grid.size();i++){
-                    if(prev == i) continue;
-                    mini=min(mini,grid[n][i]);
-     
-            }
-            return mini;
-        }
+        // if(n==0){
+        //     int mini=1e8;
+        //     for(int i=0;i<grid.size();i++){
+        //             if(prev == i) continue;
+        //             mini=min(mini,grid[n][i]);
+        //     }
+        //     return mini;
+        // }
+        if(n < 0) return 0;
         if(dp[n][prev]!=-1)return dp[n][prev];
         int mini=1e8;
         for(int j=0;j<grid.size();j++){
