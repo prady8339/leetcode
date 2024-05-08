@@ -1,6 +1,8 @@
 class Solution {
 public:
     vector<string> findRelativeRanks(vector<int>& score) {
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
         int n = score.size();
         vector<string> ans(n);
         vector<pair<int,int>> clone;
@@ -8,8 +10,7 @@ public:
             pair p = {score[i], i};
             clone.push_back(p);
         }
-        sort(clone.begin(),clone.end());
-        reverse(clone.begin(),clone.end());
+        sort(clone.rbegin(),clone.rend());
         for(int i = 0 ; i < clone.size() ; i++){
             int idx = clone[i].second;
             if(i == 0) ans[idx] = "Gold Medal";
