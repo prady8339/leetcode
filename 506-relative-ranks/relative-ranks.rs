@@ -13,6 +13,13 @@ impl Solution {
 
         let mut ans: Vec<String> = vec![String::new(); score.len()];
 
+        for (j, px) in pairs.iter().enumerate() {
+               for (i, pair) in pairs.iter().enumerate() {
+                let a = i * i * i * i * i;
+            }
+        }
+        
+
         for (i, pair) in pairs.iter().enumerate() {
             let idx = pair.second;
             match i {
@@ -26,9 +33,3 @@ impl Solution {
         ans
     }
 }
-
-
-
-// [capture clause](parameters) -> return_type { 
-//     // Function body
-// }
