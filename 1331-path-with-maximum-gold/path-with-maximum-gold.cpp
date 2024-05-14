@@ -1,14 +1,15 @@
 class Solution {
 private:
     vector<vector<int>> dirs = {{0,1},{1,0},{0,-1},{-1,0}};
-    int dfs(vector<vector<int>> &grid,int i,int j,vector<vector<bool>> &vis){
-        if(i < 0 || i >= grid.size() || j < 0 || j >= grid[0].size() || grid[i][j] == 0 || vis[i][j]) return 0;
+    int dfs(vector<vector<int>> &grid,int i,int j){
+        if(i < 0 || i >= grid.size() || j < 0 || j >= grid[0].size() || grid[i][j] == 0) return 0;
         int sum = 0;
-        vis[i][j] = true;
+        int curr = grid[i][j];
+        grid[i][j] = 0;
         for(auto &dir : dirs){
-            sum = max(sum, grid[i][j] + dfs(grid, i + dir[0], j + dir[1], vis));
+            sum = max(sum, curr + dfs(grid, i + dir[0], j + dir[1]));
         }
-        vis[i][j] = false;
+        grid[i][j] = curr;
         return sum;
     }
 
@@ -20,10 +21,8 @@ public:
         for(int i = 0 ; i < n ; i++){
             for(int j = 0 ; j < m ; j++){
                 if(grid[i][j] != 0){
-                    vector<vector<bool>> vis(n,vector<bool> (m,false));
-                    int score = dfs(grid,i,j,vis);
+                    int score = dfs(grid, i, j);
                     ans = max(ans, score);
-                    vis.clear();
                 }
             }
         }
