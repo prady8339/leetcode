@@ -10,7 +10,7 @@ public:
         for(int i = 0; i * i <= c ; i++){
             int a = i * i;
             int b = c - a;
-            if(isPerfect(a) && isPerfect(b)) return true;
+            if(isPerfect(b)) return true;
             if(b < a) return false;
         }
         return false;
