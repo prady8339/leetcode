@@ -9,7 +9,7 @@ public:
             rem = (rem + numBottles) % numExchange;
             ans += newbot;
             numBottles = newbot;
-            if(newbot == 0) break;
+            //if(newbot == 0) break;
        }
         return ans;
     }
