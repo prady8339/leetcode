@@ -17,9 +17,9 @@ public:
             bot_score = y;
         }
 
-        // Removing first top substrings cause they give more points
+       
         vector<char> stack;
-        for (char ch : s) {  // Changed 'char' to 'ch'
+        for (char ch : s) {  
             if (ch == top[1] && !stack.empty() && stack.back() == top[0]) {
                 res += top_score;
                 stack.pop_back();
@@ -28,9 +28,9 @@ public:
             }
         }
 
-        // Removing bot substrings cause they give less or equal amount of scores
+        
         vector<char> new_stack;
-        for (char ch : stack) {  // Changed 'char' to 'ch'
+        for (char ch : stack) { 
             if (ch == bot[1] && !new_stack.empty() && new_stack.back() == bot[0]) {
                 res += bot_score;
                 new_stack.pop_back();
