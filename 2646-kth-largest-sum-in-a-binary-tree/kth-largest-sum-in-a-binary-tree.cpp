@@ -11,29 +11,40 @@
  * };
  */
 class Solution {
-private:
-    void solve(TreeNode* root, unordered_map<int, long long>& temp, int depth) {
-        if (root == NULL)
-            return;
-        if (temp.count(depth))
-            temp[depth] += root->val;
-        else
-            temp[depth] = root->val;
-        solve(root->left, temp, depth + 1);
-        solve(root->right, temp, depth + 1);
-    }
-
 public:
     long long kthLargestLevelSum(TreeNode* root, int k) {
-        unordered_map<int, long long> temp;
-        solve(root, temp, 0);
-        vector<long long> vec;
-        for (auto& [k, v] : temp) {
-            vec.push_back(v);
-        }
-        sort(vec.begin(), vec.end());
-        if (k > vec.size())
+        if (!root)
             return -1;
-        return vec[vec.size() - k];
+        priority_queue<long long, vector<long long>, greater<long long>> mH;
+        queue<TreeNode*> q;
+        q.push(root);
+        while (!q.empty()) {
+            int levelSize = q.size();
+            long long levelSum = 0;
+            for (int i = 0; i < levelSize; i++) {
+                auto tp = q.front();
+                q.pop();
+                levelSum += tp->val;
+
+                if (tp->left)
+                    q.push(tp->left);
+                if (tp->right)
+                    q.push(tp->right);
+            }
+
+            if (mH.size() < k) {
+                mH.push(levelSum);
+            } else if (mH.size() >= k) {
+                auto tp = mH.top();
+                mH.pop();
+                if (levelSum > tp)
+                    mH.push(levelSum);
+                else
+                    mH.push(tp);
+            }
+        }
+        if (mH.size() < k)
+            return -1;
+        return mH.top();
     }
 };
