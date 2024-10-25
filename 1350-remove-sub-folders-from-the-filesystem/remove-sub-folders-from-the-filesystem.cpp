@@ -1,11 +1,11 @@
 class Solution {
 public:
     vector<string> removeSubfolders(vector<string>& folder) {
-        sort(folder.begin(), folder.end());
+        //sort(folder.begin(), folder.end());
         if (folder.size() <= 1)
             return folder;
         vector<string> res;
-        unordered_set<string> st;
+        unordered_set<string> st(folder.begin(), folder.end());
         for (int i = 0; i < folder.size(); i++) {
             string maker = "";
             bool toAdd = true;
@@ -17,7 +17,7 @@ public:
                 maker += folder[i][j];
             }
             if(toAdd){
-                st.insert(folder[i]);
+                //st.insert(folder[i]);
                 res.push_back(folder[i]);
             }
         }
