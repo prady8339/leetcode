@@ -1,15 +1,12 @@
 class Solution {
-
 public:
     int takeCharacters(string s, int k) {
-        map<char, int> mp;
+        vector<int> v(3, 0);
 
         for (auto& x : s)
-            mp[x]++;
+            v[x - 'a']++;
 
-        auto is_valid = [&]() -> bool {
-            return min({mp['a'], mp['b'], mp['c']}) >= k;
-        };
+        auto is_valid = [&]() -> bool { return min({v[0], v[1], v[2]}) >= k; };
 
         if (!is_valid()) {
             return -1;
@@ -19,12 +16,12 @@ public:
         int l = 0, r = 0;
         int ans = 0;
         while (r < n) {
-            mp[s[r]]--;
+            v[s[r] - 'a']--;
             while (!is_valid()) {
-                mp[s[l]]++;
+                v[s[l] - 'a']++;
                 l++;
             }
-            ans = max(ans,(r - l + 1));
+            ans = max(ans, (r - l + 1));
             r++;
         }
         return n - ans;
