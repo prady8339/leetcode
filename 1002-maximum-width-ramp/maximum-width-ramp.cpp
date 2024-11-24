@@ -1,24 +1,32 @@
 class Solution {
 public:
     int maxWidthRamp(vector<int>& nums) {
-        int n = nums.size();
-        stack<int> s;
-        
-        for (int i = 0; i < n; ++i) {
-            if (s.empty() || nums[s.top()] > nums[i]) {
-                s.push(i);
+        stack<int> mono;
+        int maxi = nums.back(), n = nums.size();
+        for (int i = n - 1; i > 0; i--) {
+            if (nums[i] >= maxi) {
+                maxi = nums[i];
+                mono.push(maxi);
             }
         }
-        
-        int maxWidth = 0;
-        
-        for (int j = n - 1; j >= 0; --j) {
-            while (!s.empty() && nums[s.top()] <= nums[j]) {
-                maxWidth = max(maxWidth, j - s.top());
-                s.pop();
+        int ans = 0;
+        int l = 0, r = 1;
+        cout << mono.size() << endl;
+        while (r < n) {
+            if (mono.empty())
+                break;
+            int tp = mono.top();
+            if (nums[l] <= tp) {
+
+                ans = max(ans, r - l);
+            } else {
+                l++;
             }
+            if (nums[r] >= tp) {
+                mono.pop();
+            }
+            r++;
         }
-        
-        return maxWidth;
+        return ans;
     }
 };
